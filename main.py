@@ -1,5 +1,5 @@
 import logging
-logging.basicConfig(filename="imagecutterpy.log",level=logging.DEBUG)
+logging.basicConfig(filename="imagecutterpy.log",level=logging.CRITICAL)
 from PIL import Image
 from psd_tools import PSDImage
 import os
