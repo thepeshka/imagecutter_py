@@ -11,7 +11,7 @@ packages = ["idna"]
 options = {
     'build_exe': {    
         'packages':packages,
-        'include_files': ["DLLs\\64\\tcl86t.dll", "DLLs\\64\\tk86t.dll"]
+        'include_files': ["DLLs\\64\\tcl86t.dll", "DLLs\\64\\tk86t.dll","nvdxt.exe"]
     },    
 }
 

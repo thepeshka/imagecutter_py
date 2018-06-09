@@ -59,14 +59,14 @@ def changeMainStatus(*arg):
     for i in arg:
             text = text + str(i) + " "
     print(text)
-    logger.info(text)
+    logging.info(text)
 
 def changeSubStatus(*arg):
     text = ""
     for i in arg:
             text = text + str(i) + " "
     print(text)
-    logger.info(text)
+    logging.info(text)
 
 def main(imagepath,targetpath,maxiters,chuncksize):
     if targetpath[-1] not in ["\\","/"]:
