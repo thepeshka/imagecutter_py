@@ -1,7 +1,7 @@
 from cx_Freeze import setup, Executable
 import os
-os.environ['TCL_LIBRARY'] = r'C:\\Users\\peshka\\AppData\\Local\\Programs\\Python\\Python36-32\\tcl\\tcl8.6'
-os.environ['TK_LIBRARY'] = r'C:\\Users\\peshka\\AppData\\Local\\Programs\\Python\\Python36-32\\tcl\\tk8.6'
+os.environ['TCL_LIBRARY'] = r'C:\\Users\\peshka\\AppData\\Local\\Programs\\Python\\Python36\\tcl\\tcl8.6'
+os.environ['TK_LIBRARY'] = r'C:\\Users\\peshka\\AppData\\Local\\Programs\\Python\\Python36\\tcl\\tk8.6'
 
 base = None    
 
@@ -11,7 +11,7 @@ packages = ["idna"]
 options = {
     'build_exe': {    
         'packages':packages,
-        'include_files': ["tcl86t.dll", "tk86t.dll"]
+        'include_files': ["DLLs\\64\\tcl86t.dll", "DLLs\\64\\tk86t.dll"]
     },    
 }
 
