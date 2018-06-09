@@ -1,3 +1,5 @@
+import logging
+logging.basicConfig(filename="imagecutterpy.log",level=logging.DEBUG)
 from PIL import Image
 from psd_tools import PSDImage
 import os
@@ -34,10 +36,12 @@ def cutImage(im,targetPath,chunksize=512):
             pngPath = targetPath + "/map_%d_%d.png"%(x,y)
             changeSubStatus("["+str(int((chunck/maxchuncks)*100))+"%]","["+str(chunck)+"/"+str(maxchuncks)+"]","saving...")
             result.save(pngPath)
-            changeSubStatus("["+str(int((chunck/maxchuncks)*100))+"%]","["+str(chunck)+"/"+str(maxchuncks)+"]","converting...")
             cmd = "nvdxt.exe -file %s -output %s -dxt1c"%(pngPath, targetPath + "/map_%d_%d.dds"%(x,y))
+            changeSubStatus("["+str(int((chunck/maxchuncks)*100))+"%]","["+str(chunck)+"/"+str(maxchuncks)+"]","converting...",cmd)
             p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
-            p.communicate()
+            (stdoutdata, stderrdata) = p.communicate()
+            logging.info(stdoutdata)
+            logging.info(stderrdata)
             os.remove(pngPath)
             h += chunksize
             y += 1
@@ -55,12 +59,14 @@ def changeMainStatus(*arg):
     for i in arg:
             text = text + str(i) + " "
     print(text)
+    logger.info(text)
 
 def changeSubStatus(*arg):
     text = ""
     for i in arg:
             text = text + str(i) + " "
     print(text)
+    logger.info(text)
 
 def main(imagepath,targetpath,maxiters,chuncksize):
     if targetpath[-1] not in ["\\","/"]:
@@ -75,10 +81,13 @@ def main(imagepath,targetpath,maxiters,chuncksize):
         iterations -= 1
     changeMainStatus("finish")
 
-from tkinter.filedialog import askopenfilename
-import tkinter as tk
+try:
+    from tkinter.filedialog import askopenfilename
+    import tkinter as tk
 
-root = tk.Tk()
-root.withdraw()
-filename = askopenfilename(initialdir = os.getcwd(),title = "Source",filetypes = (("PSD","*.psd"),("JPG","*.jpg"),("PNG","*.png")))
-main(filename,os.getcwd(),3,512)
+    root = tk.Tk()
+    root.withdraw()
+    filename = askopenfilename(initialdir = os.getcwd(),title = "Source",filetypes = (("PSD","*.psd"),("JPG","*.jpg"),("PNG","*.png")))
+    main(filename,os.getcwd(),3,512)
+except Exception as e:
+    logging.error("Unhandled exception: "+repr(e))
